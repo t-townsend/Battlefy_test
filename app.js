@@ -13,48 +13,52 @@ require('dotenv').config()
 
 var app = express();
 
-// const summonerData = request({
-//   url: 'https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/sermeowington?api_key=RGAPI-f4cf9b94-ab55-4cec-adbe-7e4c5d23bfac',
-//   headers: 
-//     {
-//       "Origin": "https://developer.riotgames.com",
-//       "Accept-Charset": "application/x-www-form-urlencoded; charset=UTF-8",
-//       "X-Riot-Token": "RGAPI-f4cf9b94-ab55-4cec-adbe-7e4c5d23bfac",
-//       "Accept-Language": "en-US,en;q=0.8,la;q=0.6",
-//       "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36"
-//   }
-// }, function (error, response, body) {
-//   console.log('error:', error);
-//   console.log('statusCode:', response && response.statusCode);
-//   console.log('body:', JSON.parse(body));
+/* I did this part when the open source projects weren't working I was making a header
+request that I could call on the react front end, but Jaime pointed me to League-js, which
+worked like gangbusters.
 
-//   let length = JSON.parse(body).count;
+const summonerData = request({
+  url: 'https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/sermeowington?api_key=RGAPI-f4cf9b94-ab55-4cec-adbe-7e4c5d23bfac',
+  headers: 
+    {
+      "Origin": "https://developer.riotgames.com",
+      "Accept-Charset": "application/x-www-form-urlencoded; charset=UTF-8",
+      "X-Riot-Token": "RGAPI-f4cf9b94-ab55-4cec-adbe-7e4c5d23bfac",
+      "Accept-Language": "en-US,en;q=0.8,la;q=0.6",
+      "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36"
+  }
+}, function (error, response, body) {
+  console.log('error:', error);
+  console.log('statusCode:', response && response.statusCode);
+  console.log('body:', JSON.parse(body));
 
-//   Summoner.remove({}, function (err, small) {
-//     if (err) { return handleError(err) };
-//   });
-//     let summonerInfos = {
-//       "profileIconId": JSON.parse(body).profileIconId
-//       "name": "SerMeowington",
-//       "summonerLevel": 30,
-//       "accountId": 215942119,
-//       "id": 53300045,
-//       "revisionDate": 1506232821000
-//       
-//     }
-//     let summoner = new Summoner(summonerInfos);
-//     summoner.save(function (err) {
-//       if (err) {
-//         return handleError(err);
-//       }
-//     });
-//   }
-// });
+  let length = JSON.parse(body).count;
 
-// const Summoners = restful.model('summoners', SummonerSchema);
-// Summoners.methods(['get', 'put', 'post', 'delete']);
-// Summoners.register(app, '/api/summoners');
+  Summoner.remove({}, function (err, small) {
+    if (err) { return handleError(err) };
+  });
+    let summonerInfos = {
+      "profileIconId": JSON.parse(body).profileIconId
+      "name": "SerMeowington",
+      "summonerLevel": 30,
+      "accountId": 215942119,
+      "id": 53300045,
+      "revisionDate": 1506232821000
+      
+    }
+    let summoner = new Summoner(summonerInfos);
+    summoner.save(function (err) {
+      if (err) {
+        return handleError(err);
+      }
+    });
+  }
+});
 
+const Summoners = restful.model('summoners', SummonerSchema);
+Summoners.methods(['get', 'put', 'post', 'delete']);
+Summoners.register(app, '/api/summoners');
+*/
 process.env.LEAGUE_API_PLATFORM_ID = 'na1'
 
 const LeagueJs = require('leaguejs');
@@ -83,27 +87,11 @@ api.Summoner
         console.log(err);
     });
 
-    // router.get('/', function(req, res) {
-    //   res.render(index, {results: results})
-    // });
-
-  // api.Match
-  // .gettingByAccount(215942119, 'na1')
-  // .then(data => {
-  //     'use strict';
-  //     console.log(data);
-  // })
-  // .catch(err => {
-  //     'use strict';
-  //     console.log(err);
-  // });
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -113,13 +101,6 @@ app.use(cors())
 
 app.use('/', index);
 app.use('/users', users);
-
-
-// app.use(function(req, res, next) {
-//   res.header("Access-Control-Allow-Origin", "*");
-//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//   next();
-// });
 
 
 // catch 404 and forward to error handler
